@@ -195,8 +195,6 @@ export const AnalyticsProgram = ({ matches, lambda = 1 }: AnalyticsInput) =>
 
 			const ranking: ParticipantRating[] = participants.map(
 				(participant, index) => {
-					if (!stats) return;
-
 					const participantStats = stats.get(participant);
 
 					if (!participantStats)
