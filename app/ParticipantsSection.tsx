@@ -8,7 +8,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/shadcn/card";
-import { Field, FieldLabel } from "@/components/shadcn/field";
+import { Field, FieldError, FieldLabel } from "@/components/shadcn/field";
 import { Input } from "@/components/shadcn/input";
 import {
 	Item,
@@ -120,6 +120,12 @@ export default function ParticipantsSection() {
 															0
 														}
 														placeholder="Rocco Vaccone"
+													/>
+													<FieldError
+														errors={
+															field.state.meta
+																.errors
+														}
 													/>
 												</Field>
 											)}
