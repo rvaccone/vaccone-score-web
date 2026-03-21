@@ -4,6 +4,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/shadcn/card";
+import ConfigSection from "./ConfigSection";
 import ParticipantsSection from "./ParticipantsSection";
 
 export default function Home() {
@@ -20,6 +21,8 @@ export default function Home() {
 						</CardDescription>
 					</CardHeader>
 				</Card>
+
+				<ConfigSection />
 
 				<div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
 					<div className="lg:col-span-1">
