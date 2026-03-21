@@ -33,7 +33,6 @@ export default function ConfigSection() {
 		onSubmit: async ({ value }) => {
 			const { participantsPerTeam } = value;
 			setParticipantsPerTeam(participantsPerTeam);
-			form.reset();
 		},
 	});
 
@@ -79,7 +78,7 @@ export default function ConfigSection() {
 											field.handleChange(
 												!Number.isNaN(nextValue)
 													? nextValue
-													: 0,
+													: 1,
 											);
 										}}
 										aria-invalid={
