@@ -18,9 +18,6 @@ export default function AnalyticsSection() {
 	// Hooks
 	const { matches } = useMatchesStore();
 
-	// Variables
-	const matchIds = matches.map((match) => match.id);
-
 	// Queries
 	const {
 		data: analytics,
@@ -28,7 +25,7 @@ export default function AnalyticsSection() {
 		isSuccess: isSuccessAnalytics,
 		error: errorAnalytics,
 	} = useQuery({
-		queryKey: ["analytics", matchIds],
+		queryKey: ["analytics", matches],
 		enabled: matches.length > 0,
 		queryFn: async () =>
 			api
