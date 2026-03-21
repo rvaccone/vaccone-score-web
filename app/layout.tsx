@@ -1,3 +1,4 @@
+import { QueryProvider } from "@/components/providers/QueryProvider";
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -36,7 +37,7 @@ export default function RootLayout({
 					defaultTheme="system"
 					enableSystem
 				>
-					{children}
+					<QueryProvider>{children}</QueryProvider>
 				</ThemeProvider>
 			</body>
 		</html>

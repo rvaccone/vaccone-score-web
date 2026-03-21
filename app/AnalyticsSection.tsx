@@ -7,44 +7,38 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/shadcn/card";
-import { AnalyticsProgram } from "@/lib/analytics";
+import { api } from "@/lib/api";
 import { useMatchesStore } from "@/stores/matches";
+import { AnalysisResults } from "@/types/analysis";
 import { ChampionIcon, SadDizzyIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Effect } from "effect";
-import { useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 export default function AnalyticsSection() {
 	// Hooks
 	const { matches } = useMatchesStore();
 
-	// Memos
-	const result = useMemo(() => {
-		if (matches.length === 0) {
-			return {
-				status: "empty" as const,
-			};
-		}
+	// Variables
+	const matchIds = matches.map((match) => match.id);
 
-		const either = Effect.runSync(
-			Effect.either(
-				AnalyticsProgram({
-					matches,
-				}),
-			),
-		);
-
-		if (either._tag === "Left")
-			return {
-				status: "error" as const,
-				message: either.left.message,
-			};
-
-		return {
-			status: "success" as const,
-			data: either.right,
-		};
-	}, [matches]);
+	// Queries
+	const {
+		data: analytics,
+		isPending: isPendingAnalytics,
+		isSuccess: isSuccessAnalytics,
+		error: errorAnalytics,
+	} = useQuery({
+		queryKey: ["analytics", matchIds],
+		enabled: matches.length > 0,
+		queryFn: async () =>
+			api
+				.post("analyze", {
+					json: {
+						matches,
+					},
+				})
+				.json<AnalysisResults>(),
+	});
 
 	return (
 		<Card>
@@ -55,17 +49,25 @@ export default function AnalyticsSection() {
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
-				{result.status === "empty" && (
-					<p className="text-muted-foreground text-sm">
+				{matches.length === 0 && (
+					<p className="text-muted-foreground">
 						Add some matches to see rankings.
 					</p>
 				)}
 
-				{result.status === "error" && (
-					<p className="text-sm text-red-500">{result.message}</p>
+				{isPendingAnalytics && matches.length > 0 && (
+					<p className="text-muted-foreground">
+						Loading analytics...
+					</p>
 				)}
 
-				{result.status === "success" && (
+				{errorAnalytics && (
+					<p className="text-sm text-red-500">
+						{errorAnalytics.message}
+					</p>
+				)}
+
+				{isSuccessAnalytics && analytics && (
 					<div className="space-y-4">
 						<div className="grid gap-2 sm:grid-cols-3">
 							<div className="rounded-md border p-3">
@@ -73,7 +75,7 @@ export default function AnalyticsSection() {
 									Total Matches
 								</div>
 								<div className="text-lg font-semibold">
-									{result.data.matchCount}
+									{analytics.matchCount}
 								</div>
 							</div>
 
@@ -82,7 +84,7 @@ export default function AnalyticsSection() {
 									Margin RMSE
 								</div>
 								<div className="text-lg font-semibold">
-									{result.data.rmse.toFixed(2)}
+									{analytics.rmse.toFixed(2)}
 								</div>
 							</div>
 
@@ -91,13 +93,13 @@ export default function AnalyticsSection() {
 									Margin MAE
 								</div>
 								<div className="text-lg font-semibold">
-									{result.data.mae.toFixed(2)}
+									{analytics.mae.toFixed(2)}
 								</div>
 							</div>
 						</div>
 
 						<div className="space-y-2">
-							{result.data.ranking.map((entry, index) => (
+							{analytics.ranking.map((entry, index) => (
 								<div
 									key={entry.participant}
 									className="flex items-center justify-between rounded-md border p-3"
@@ -116,7 +118,7 @@ export default function AnalyticsSection() {
 												/>
 											)}
 											{index ===
-												result.data.ranking.length -
+												analytics.ranking.length -
 													1 && (
 												<HugeiconsIcon
 													icon={SadDizzyIcon}
@@ -125,7 +127,7 @@ export default function AnalyticsSection() {
 												/>
 											)}
 										</div>
-										<div className="text-muted-foreground text-sm">
+										<div className="text-muted-foreground">
 											{entry.wins} Wins - {entry.losses}{" "}
 											Losses • {entry.matchesPlayed}{" "}
 											matches
@@ -136,7 +138,7 @@ export default function AnalyticsSection() {
 										<div className="font-semibold">
 											{entry.rating.toFixed(2)} Rating
 										</div>
-										<div className="text-muted-foreground text-sm">
+										<div className="text-muted-foreground">
 											Net Points {entry.pointDifferential}
 										</div>
 									</div>
