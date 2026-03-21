@@ -4,6 +4,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/shadcn/card";
+import AnalyticsSection from "./AnalyticsSection";
 import ConfigSection from "./ConfigSection";
 import MatchesSelection from "./MatchesSelection";
 import ParticipantsSection from "./ParticipantsSection";
@@ -33,14 +34,7 @@ export default function Home() {
 					<div className="flex flex-col gap-4 lg:col-span-2">
 						<MatchesSelection />
 
-						<Card>
-							<CardHeader>
-								<CardTitle>Analytics</CardTitle>
-								<CardDescription>
-									View the current rankings and other stats.
-								</CardDescription>
-							</CardHeader>
-						</Card>
+						<AnalyticsSection />
 					</div>
 				</div>
 			</main>

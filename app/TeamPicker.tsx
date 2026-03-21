@@ -112,7 +112,6 @@ export default function TeamPicker({
 													<HugeiconsIcon
 														icon={Tick01Icon}
 														size={24}
-														color="currentColor"
 														strokeWidth={1.5}
 														className={cn(
 															!isSelected &&
@@ -157,7 +156,6 @@ export default function TeamPicker({
 										icon={X}
 										size={24}
 										color="currentColor"
-										strokeWidth={1.5}
 									/>
 								</Button>
 							</Badge>

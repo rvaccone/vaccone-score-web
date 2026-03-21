@@ -270,57 +270,59 @@ export default function MatchesSelection() {
 							)}
 
 							{/* Matches history */}
-							{matches.length > 0 &&
-								matches.map((match) => (
-									<Item
-										key={match.id}
-										className="border-border"
-									>
-										<ItemContent>
-											<div className="flex items-center justify-between gap-4">
-												<div className="flex gap-2">
-													<div className="flex gap-1">
-														<ItemTitle>
-															{match.teamA.join(
-																", ",
-															)}{" "}
+							<div className="space-y-1">
+								{matches.length > 0 &&
+									matches.map((match) => (
+										<Item
+											key={match.id}
+											className="border-border"
+										>
+											<ItemContent>
+												<div className="flex items-center justify-between gap-4">
+													<div className="flex gap-2">
+														<div className="flex gap-1">
+															<ItemTitle>
+																{match.teamA.join(
+																	", ",
+																)}{" "}
+															</ItemTitle>
+															<ItemDescription>
+																({match.scoreA})
+															</ItemDescription>
+														</div>
+														<ItemTitle className="text-muted-foreground">
+															VS
 														</ItemTitle>
-														<ItemDescription>
-															({match.scoreA})
-														</ItemDescription>
+														<div className="flex gap-1">
+															<ItemTitle>
+																{match.teamB.join(
+																	", ",
+																)}{" "}
+															</ItemTitle>
+															<ItemDescription>
+																({match.scoreB})
+															</ItemDescription>
+														</div>
 													</div>
-													<ItemTitle className="text-muted-foreground">
-														VS
-													</ItemTitle>
-													<div className="flex gap-1">
-														<ItemTitle>
-															{match.teamB.join(
-																", ",
-															)}{" "}
-														</ItemTitle>
-														<ItemDescription>
-															({match.scoreB})
-														</ItemDescription>
-													</div>
+													<ItemDescription>
+														{new Date(
+															match.createdAt,
+														).toLocaleString()}
+													</ItemDescription>
 												</div>
-												<ItemDescription>
-													{new Date(
-														match.createdAt,
-													).toLocaleString()}
-												</ItemDescription>
-											</div>
-										</ItemContent>
-										<ItemActions>
-											<Button
-												onClick={() => {
-													removeMatch(match.id);
-												}}
-											>
-												Remove
-											</Button>
-										</ItemActions>
-									</Item>
-								))}
+											</ItemContent>
+											<ItemActions>
+												<Button
+													onClick={() => {
+														removeMatch(match.id);
+													}}
+												>
+													Remove
+												</Button>
+											</ItemActions>
+										</Item>
+									))}
+							</div>
 						</AccordionContent>
 					</AccordionItem>
 				</Accordion>
