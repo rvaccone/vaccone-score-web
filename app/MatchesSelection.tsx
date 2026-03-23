@@ -316,6 +316,7 @@ export default function MatchesSelection() {
 											</ItemContent>
 											<ItemActions>
 												<Button
+													variant="outline"
 													onClick={() => {
 														removeMatch(match.id);
 													}}

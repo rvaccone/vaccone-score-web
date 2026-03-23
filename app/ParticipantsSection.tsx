@@ -159,6 +159,7 @@ export default function ParticipantsSection() {
 													</ItemContent>
 													<ItemActions>
 														<Button
+															variant="outline"
 															onClick={() => {
 																removeParticipant(
 																	participant,
