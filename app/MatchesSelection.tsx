@@ -26,7 +26,11 @@ import {
 import { useConfigStore } from "@/stores/config";
 import { useMatchesStore } from "@/stores/matches";
 import { useParticipantStore } from "@/stores/participants";
-import { RemoveCircleIcon, SaveIcon } from "@hugeicons/core-free-icons";
+import {
+	CircleArrowReload01Icon,
+	RemoveCircleIcon,
+	SaveIcon,
+} from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useForm } from "@tanstack/react-form";
 import { Schema } from "effect";
@@ -45,7 +49,7 @@ const AddMatchFormSchema = Schema.standardSchemaV1(
 export default function MatchesSelection() {
 	// Hooks
 	const { participantsPerTeam } = useConfigStore();
-	const { matches, addMatch, removeMatch } = useMatchesStore();
+	const { matches, addMatch, removeMatch, resetMatches } = useMatchesStore();
 	const { participants } = useParticipantStore();
 	const form = useForm({
 		defaultValues: {
@@ -330,6 +334,24 @@ export default function MatchesSelection() {
 										</Item>
 									))}
 							</div>
+
+							{/* Reset matches */}
+							{matches.length > 0 && (
+								<div className="mt-4">
+									<Button
+										variant="outline"
+										onClick={() => {
+											resetMatches();
+										}}
+										className="w-full"
+									>
+										<HugeiconsIcon
+											icon={CircleArrowReload01Icon}
+										/>
+										Reset matches
+									</Button>
+								</div>
+							)}
 						</AccordionContent>
 					</AccordionItem>
 				</Accordion>
