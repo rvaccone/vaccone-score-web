@@ -26,6 +26,8 @@ import {
 import { useConfigStore } from "@/stores/config";
 import { useMatchesStore } from "@/stores/matches";
 import { useParticipantStore } from "@/stores/participants";
+import { RemoveCircleIcon, SaveIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { useForm } from "@tanstack/react-form";
 import { Schema } from "effect";
 import { v4 as uuidv4 } from "uuid";
@@ -43,7 +45,7 @@ const AddMatchFormSchema = Schema.standardSchemaV1(
 export default function MatchesSelection() {
 	// Hooks
 	const { participantsPerTeam } = useConfigStore();
-	const { matches, addMatch, removeMatch, resetMatches } = useMatchesStore();
+	const { matches, addMatch, removeMatch } = useMatchesStore();
 	const { participants } = useParticipantStore();
 	const form = useForm({
 		defaultValues: {
@@ -247,6 +249,7 @@ export default function MatchesSelection() {
 											disabled={!canSubmit}
 											className=""
 										>
+											<HugeiconsIcon icon={SaveIcon} />
 											Save match
 										</Button>
 									</div>
@@ -317,6 +320,9 @@ export default function MatchesSelection() {
 														removeMatch(match.id);
 													}}
 												>
+													<HugeiconsIcon
+														icon={RemoveCircleIcon}
+													/>
 													Remove
 												</Button>
 											</ItemActions>

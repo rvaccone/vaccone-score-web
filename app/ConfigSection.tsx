@@ -11,6 +11,8 @@ import {
 import { Field, FieldError, FieldLabel } from "@/components/shadcn/field";
 import { Input } from "@/components/shadcn/input";
 import { useConfigStore } from "@/stores/config";
+import { SaveIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { useForm } from "@tanstack/react-form";
 import { Schema } from "effect";
 
@@ -101,6 +103,7 @@ export default function ConfigSection() {
 							]}
 							children={([canSubmit, isSubmitting]) => (
 								<Button type="submit" disabled={!canSubmit}>
+									<HugeiconsIcon icon={SaveIcon} />
 									{isSubmitting ? "Saving..." : "Save"}
 								</Button>
 							)}

@@ -111,7 +111,6 @@ export default function AnalyticsSection() {
 												<HugeiconsIcon
 													icon={ChampionIcon}
 													size={16}
-													strokeWidth={1.5}
 												/>
 											)}
 											{index ===
@@ -120,7 +119,6 @@ export default function AnalyticsSection() {
 												<HugeiconsIcon
 													icon={SadDizzyIcon}
 													size={16}
-													strokeWidth={1.5}
 												/>
 											)}
 										</div>

@@ -17,7 +17,7 @@ import {
 	PopoverTrigger,
 } from "@/components/shadcn/popover";
 import { cn } from "@/lib/utils";
-import { Tick01Icon, X } from "@hugeicons/core-free-icons";
+import { AddTeamIcon, Tick01Icon, X } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useMemo, useState } from "react";
 
@@ -61,9 +61,8 @@ export default function TeamPicker({
 			return;
 		}
 
-		if (selected.length >= maxSelected) return;
-
-		onChangeAction([...selected, participant]);
+		if (selected.length < maxSelected)
+			onChangeAction([...selected, participant]);
 	};
 
 	return (
@@ -75,12 +74,12 @@ export default function TeamPicker({
 					<PopoverTrigger>
 						<Button
 							type="button"
-							variant="outline"
 							role="combobox"
 							aria-expanded={open}
 							aria-invalid={invalid}
 							className="w-full justify-between"
 						>
+							<HugeiconsIcon icon={AddTeamIcon} />
 							{selected.length > 0
 								? `${selected.length} selected`
 								: "Select participants..."}
@@ -111,8 +110,6 @@ export default function TeamPicker({
 												>
 													<HugeiconsIcon
 														icon={Tick01Icon}
-														size={24}
-														strokeWidth={1.5}
 														className={cn(
 															!isSelected &&
 																"opacity-0",
@@ -132,11 +129,7 @@ export default function TeamPicker({
 				{selected.length > 0 && (
 					<div className="flex flex-wrap gap-2">
 						{selected.map((participant) => (
-							<Badge
-								key={participant}
-								variant="secondary"
-								className="gap-1 pr-1"
-							>
+							<Badge key={participant} className="gap-1 pr-1">
 								{participant}
 								<Button
 									type="button"
@@ -152,11 +145,7 @@ export default function TeamPicker({
 										);
 									}}
 								>
-									<HugeiconsIcon
-										icon={X}
-										size={24}
-										color="currentColor"
-									/>
+									<HugeiconsIcon icon={X} />
 								</Button>
 							</Badge>
 						))}
