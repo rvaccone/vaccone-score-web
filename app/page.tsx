@@ -33,6 +33,7 @@ export default function Home() {
 								<Link
 									href="https://github.com/rvaccone/vaccone-score-web"
 									target="_blank"
+									rel="noopener noreferrer"
 								>
 									<Button variant="outline">
 										<HugeiconsIcon
@@ -44,6 +45,7 @@ export default function Home() {
 								<Link
 									href="https://github.com/rvaccone/vaccone-score-analysis"
 									target="_blank"
+									rel="noopener noreferrer"
 								>
 									<Button variant="outline">
 										<HugeiconsIcon

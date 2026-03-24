@@ -5,7 +5,7 @@ import {
 } from "@/components/shadcn/hover-card";
 import { InformationCircleIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon, HugeiconsIconProps } from "@hugeicons/react";
-import { PropsWithChildren, ReactNode } from "react";
+import { PropsWithChildren } from "react";
 
 type TooltipProps = {
 	title: string;
