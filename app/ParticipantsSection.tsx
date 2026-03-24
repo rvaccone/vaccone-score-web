@@ -67,7 +67,7 @@ export default function ParticipantsSection() {
 					<div>
 						<CardTitle>Participants</CardTitle>
 						<CardDescription>
-							See available participants and add new ones.
+							Add players and manage the list used in matches.
 						</CardDescription>
 					</div>
 				</div>

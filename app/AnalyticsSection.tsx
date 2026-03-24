@@ -45,10 +45,36 @@ export default function AnalyticsSection() {
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>Analytics</CardTitle>
+				<div className="flex items-center gap-2">
+					<CardTitle>Analytics</CardTitle>
+					<Tooltip title="How the model works">
+						<div className="space-y-2">
+							<p>
+								Each saved match becomes one row in the model.
+								The target is the match margin: Team A score
+								minus Team B score.
+							</p>
+							<p>
+								Players on Team A get positive weight and
+								players on Team B get negative weight, split
+								evenly within each team.
+							</p>
+							<p>
+								Ridge regression learns player ratings that best
+								predict those margins, while shrinking extreme
+								values toward the middle unless the data
+								strongly supports them.
+							</p>
+							<p>
+								The final ratings are centered around 0, so they
+								are relative to the average participant in this
+								data set.
+							</p>
+						</div>
+					</Tooltip>
+				</div>
 				<CardDescription>
-					View player rankings and model accuracy from our ridge
-					regression analysis.
+					View player rankings and model accuracy.
 				</CardDescription>
 			</CardHeader>
 			<CardContent>

@@ -25,8 +25,8 @@ export default function Home() {
 									Vaccone Score
 								</CardTitle>
 								<CardDescription>
-									Track the best participants across multiple
-									games.
+									Compare player impact from saved match
+									results.
 								</CardDescription>
 							</div>
 							<div className="flex flex-col items-end gap-1">

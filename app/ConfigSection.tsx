@@ -1,5 +1,6 @@
 "use client";
 
+import { Tooltip } from "@/components/help/tooltip";
 import { Button } from "@/components/shadcn/button";
 import {
 	Card,
@@ -43,7 +44,7 @@ export default function ConfigSection() {
 			<CardHeader>
 				<CardTitle>Configuration</CardTitle>
 				<CardDescription>
-					Define rules that apply across the app.
+					Set the team size used for new matches.
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
@@ -63,9 +64,26 @@ export default function ConfigSection() {
 										field.state.meta.errors.length > 0
 									}
 								>
-									<FieldLabel htmlFor={field.name}>
-										Participants per team
-									</FieldLabel>
+									<div className="flex items-center gap-2">
+										<FieldLabel htmlFor={field.name}>
+											Participants per team
+										</FieldLabel>
+										<Tooltip title="Participants per team">
+											<div className="space-y-2">
+												<p>
+													This controls how many
+													players can be selected on
+													each side.
+												</p>
+												<p>
+													In the analysis, each
+													selected player contributes
+													an equal share of their
+													team.
+												</p>
+											</div>
+										</Tooltip>
+									</div>
 									<Input
 										id={field.name}
 										name={field.name}

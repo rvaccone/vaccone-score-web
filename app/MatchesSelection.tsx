@@ -87,7 +87,8 @@ export default function MatchesSelection() {
 					<div>
 						<CardTitle>Matches</CardTitle>
 						<CardDescription>
-							Enter the information for each match.
+							Select teams and enter the final score for each
+							match.
 						</CardDescription>
 					</div>
 
