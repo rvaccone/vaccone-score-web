@@ -1,4 +1,5 @@
 import { QueryProvider } from "@/components/providers/QueryProvider";
+import "katex/dist/katex.min.css";
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import { Geist, Geist_Mono } from "next/font/google";

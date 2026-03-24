@@ -18,6 +18,7 @@ import {
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useQuery } from "@tanstack/react-query";
+import { BlockMath, InlineMath } from "react-katex";
 
 export default function AnalyticsSection() {
 	// Hooks
@@ -48,27 +49,64 @@ export default function AnalyticsSection() {
 				<div className="flex items-center gap-2">
 					<CardTitle>Analytics</CardTitle>
 					<Tooltip title="How the model works">
-						<div className="space-y-2">
+						<div className="space-y-3">
 							<p>
-								Each saved match becomes one row in the model.
-								The target is the match margin: Team A score
-								minus Team B score.
+								The model looks at each saved match and tries to
+								explain the final margin,{" "}
+								<InlineMath math="y = s_A - s_B" />.
 							</p>
+
 							<p>
-								Players on Team A get positive weight and
-								players on Team B get negative weight, split
-								evenly within each team.
+								<InlineMath math="y" /> is the margin we want to
+								predict, <InlineMath math="s_A" /> is Team A’s
+								score, and <InlineMath math="s_B" /> is Team B’s
+								score.
 							</p>
+
 							<p>
-								Ridge regression learns player ratings that best
-								predict those margins, while shrinking extreme
-								values toward the middle unless the data
-								strongly supports them.
+								Each match is turned into a row of player
+								weights, and the model uses those weights to
+								predict:{" "}
+								<InlineMath math="\hat{y} = x \cdot \beta" />.
 							</p>
+
 							<p>
-								The final ratings are centered around 0, so they
-								are relative to the average participant in this
-								data set.
+								<InlineMath math="\hat{y}" /> is the predicted
+								margin, <InlineMath math="x" /> describes who
+								played in that match, and{" "}
+								<InlineMath math="\beta" /> is the set of player
+								ratings the model is learning.
+							</p>
+
+							<p>
+								If a player is on Team A, their weight is{" "}
+								<InlineMath math="1/|A|" />. If they are on Team
+								B, their weight is <InlineMath math="-1/|B|" />.
+								If they did not play, their weight is{" "}
+								<InlineMath math="0" />.
+							</p>
+
+							<p>
+								The model is comparing the average rating of
+								Team A to the average rating of Team B and using
+								that difference to predict the result.
+							</p>
+
+							<p>
+								Ridge regression then chooses the ratings{" "}
+								<InlineMath math="\beta" /> that fit the saved
+								matches as well as possible, while also
+								discouraging ratings from becoming too extreme.
+								That makes the results more stable, especially
+								when there are not many matches.
+							</p>
+
+							<p>
+								After fitting, the ratings are centered around
+								0. So positive values mean above-average
+								estimated impact in this player pool, and
+								negative values mean below-average estimated
+								impact.
 							</p>
 						</div>
 					</Tooltip>
@@ -193,13 +231,17 @@ export default function AnalyticsSection() {
 
 						<div className="neo-surface-xs flex items-center justify-between gap-4 px-3 py-2">
 							<div className="flex items-center gap-2">
-								<HugeiconsIcon icon={NoteIcon} size={16} />
+								<HugeiconsIcon
+									icon={NoteIcon}
+									size={16}
+									className="shrink-0"
+								/>
 								<div className="text-muted-foreground text-xs leading-5 font-light">
 									Rankings are based on ridge regression
 									player ratings.
 								</div>
 							</div>
-							<div className="text-muted-foreground flex items-center gap-4 text-xs">
+							<div className="text-muted-foreground flex flex-col items-center gap-4 text-xs md:flex-row">
 								<div className="inline-flex items-center gap-1">
 									<p className="font-light">Rating</p>
 									<Tooltip title="Player Rating">
