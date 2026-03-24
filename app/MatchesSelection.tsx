@@ -26,10 +26,23 @@ import {
 import { useConfigStore } from "@/stores/config";
 import { useMatchesStore } from "@/stores/matches";
 import { useParticipantStore } from "@/stores/participants";
+import {
+	CircleArrowReload01Icon,
+	RemoveCircleIcon,
+	SaveIcon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { useForm } from "@tanstack/react-form";
 import { Schema } from "effect";
 import { v4 as uuidv4 } from "uuid";
 import TeamPicker from "./TeamPicker";
+
+const collator = new Intl.Collator("en", {
+	sensitivity: "base",
+});
+
+const sortNames = (names: string[]) =>
+	[...names].sort((a, b) => collator.compare(a, b));
 
 const AddMatchFormSchema = Schema.standardSchemaV1(
 	Schema.Struct({
@@ -60,6 +73,8 @@ export default function MatchesSelection() {
 				...value,
 				id: uuidv4(),
 				createdAt: new Date().toISOString(),
+				teamA: sortNames(value.teamA),
+				teamB: sortNames(value.teamB),
 			});
 			form.reset();
 		},
@@ -72,7 +87,8 @@ export default function MatchesSelection() {
 					<div>
 						<CardTitle>Matches</CardTitle>
 						<CardDescription>
-							Enter the information for each match.
+							Select teams and enter the final score for each
+							match.
 						</CardDescription>
 					</div>
 
@@ -107,7 +123,8 @@ export default function MatchesSelection() {
 									</h1>
 									<div className="grid gap-4 lg:grid-cols-2">
 										<TeamPicker
-											label={`Team A (${values.teamA.length} / ${participantsPerTeam})`}
+											label="Team A"
+											sublabel={`(${values.teamA.length} / ${participantsPerTeam})`}
 											selected={values.teamA}
 											blocked={values.teamB}
 											participants={participants}
@@ -125,7 +142,8 @@ export default function MatchesSelection() {
 										/>
 
 										<TeamPicker
-											label={`Team B (${values.teamB.length} / ${participantsPerTeam})`}
+											label="Team B"
+											sublabel={`(${values.teamB.length} / ${participantsPerTeam})`}
 											selected={values.teamB}
 											blocked={values.teamA}
 											participants={participants}
@@ -245,8 +263,8 @@ export default function MatchesSelection() {
 										<Button
 											type="submit"
 											disabled={!canSubmit}
-											className=""
 										>
+											<HugeiconsIcon icon={SaveIcon} />
 											Save match
 										</Button>
 									</div>
@@ -262,7 +280,7 @@ export default function MatchesSelection() {
 						<AccordionContent>
 							{/* Fallback */}
 							{matches.length === 0 && (
-								<Item className="border-border">
+								<Item className="border-border neo-surface-xs">
 									<ItemContent>
 										<ItemTitle>No matches saved</ItemTitle>
 									</ItemContent>
@@ -275,7 +293,7 @@ export default function MatchesSelection() {
 									matches.map((match) => (
 										<Item
 											key={match.id}
-											className="border-border"
+											className="border-border neo-surface-xs"
 										>
 											<ItemContent>
 												<div className="flex items-center justify-between gap-4">
@@ -313,16 +331,38 @@ export default function MatchesSelection() {
 											</ItemContent>
 											<ItemActions>
 												<Button
+													variant="outline"
 													onClick={() => {
 														removeMatch(match.id);
 													}}
 												>
+													<HugeiconsIcon
+														icon={RemoveCircleIcon}
+													/>
 													Remove
 												</Button>
 											</ItemActions>
 										</Item>
 									))}
 							</div>
+
+							{/* Reset matches */}
+							{matches.length > 0 && (
+								<div className="mt-4">
+									<Button
+										variant="outline"
+										onClick={() => {
+											resetMatches();
+										}}
+										className="w-full"
+									>
+										<HugeiconsIcon
+											icon={CircleArrowReload01Icon}
+										/>
+										Reset matches
+									</Button>
+								</div>
+							)}
 						</AccordionContent>
 					</AccordionItem>
 				</Accordion>

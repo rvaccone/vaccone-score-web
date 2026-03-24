@@ -17,12 +17,13 @@ import {
 	PopoverTrigger,
 } from "@/components/shadcn/popover";
 import { cn } from "@/lib/utils";
-import { Tick01Icon, X } from "@hugeicons/core-free-icons";
+import { AddTeamIcon, Tick01Icon, X } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useMemo, useState } from "react";
 
 type TeamPickerProps = {
 	label: string;
+	sublabel?: string;
 	selected: string[];
 	blocked: string[];
 	participants: string[];
@@ -33,6 +34,7 @@ type TeamPickerProps = {
 
 export default function TeamPicker({
 	label,
+	sublabel,
 	selected,
 	blocked,
 	participants,
@@ -61,26 +63,30 @@ export default function TeamPicker({
 			return;
 		}
 
-		if (selected.length >= maxSelected) return;
-
-		onChangeAction([...selected, participant]);
+		if (selected.length < maxSelected)
+			onChangeAction([...selected, participant]);
 	};
 
 	return (
 		<Field data-invalid={invalid}>
-			<FieldLabel>{label}</FieldLabel>
+			<FieldLabel>
+				{label}
+				{sublabel && (
+					<span className="text-muted-foreground">{sublabel}</span>
+				)}
+			</FieldLabel>
 
 			<div className="space-y-2">
 				<Popover open={open} onOpenChange={setOpen}>
 					<PopoverTrigger>
 						<Button
 							type="button"
-							variant="outline"
 							role="combobox"
 							aria-expanded={open}
 							aria-invalid={invalid}
 							className="w-full justify-between"
 						>
+							<HugeiconsIcon icon={AddTeamIcon} />
 							{selected.length > 0
 								? `${selected.length} selected`
 								: "Select participants..."}
@@ -111,8 +117,6 @@ export default function TeamPicker({
 												>
 													<HugeiconsIcon
 														icon={Tick01Icon}
-														size={24}
-														strokeWidth={1.5}
 														className={cn(
 															!isSelected &&
 																"opacity-0",
@@ -132,17 +136,13 @@ export default function TeamPicker({
 				{selected.length > 0 && (
 					<div className="flex flex-wrap gap-2">
 						{selected.map((participant) => (
-							<Badge
-								key={participant}
-								variant="secondary"
-								className="gap-1 pr-1"
-							>
+							<Badge key={participant} className="gap-1 pr-1">
 								{participant}
 								<Button
 									type="button"
 									variant="ghost"
 									size="icon"
-									className="h-5 w-5"
+									className="text-text size-5"
 									onClick={() => {
 										onChangeAction(
 											selected.filter(
@@ -152,11 +152,7 @@ export default function TeamPicker({
 										);
 									}}
 								>
-									<HugeiconsIcon
-										icon={X}
-										size={24}
-										color="currentColor"
-									/>
+									<HugeiconsIcon icon={X} />
 								</Button>
 							</Badge>
 						))}

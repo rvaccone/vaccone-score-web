@@ -1,5 +1,6 @@
 "use client";
 
+import { Tooltip } from "@/components/help/tooltip";
 import { Button } from "@/components/shadcn/button";
 import {
 	Card,
@@ -11,6 +12,8 @@ import {
 import { Field, FieldError, FieldLabel } from "@/components/shadcn/field";
 import { Input } from "@/components/shadcn/input";
 import { useConfigStore } from "@/stores/config";
+import { SaveIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { useForm } from "@tanstack/react-form";
 import { Schema } from "effect";
 
@@ -41,7 +44,7 @@ export default function ConfigSection() {
 			<CardHeader>
 				<CardTitle>Configuration</CardTitle>
 				<CardDescription>
-					Define rules that apply across the app.
+					Set the team size used for new matches.
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
@@ -61,9 +64,26 @@ export default function ConfigSection() {
 										field.state.meta.errors.length > 0
 									}
 								>
-									<FieldLabel htmlFor={field.name}>
-										Participants per team
-									</FieldLabel>
+									<div className="flex items-center gap-2">
+										<FieldLabel htmlFor={field.name}>
+											Participants per team
+										</FieldLabel>
+										<Tooltip title="Participants per team">
+											<div className="space-y-2">
+												<p>
+													This controls how many
+													players can be selected on
+													each side.
+												</p>
+												<p>
+													In the analysis, each
+													selected player contributes
+													an equal share of their
+													team.
+												</p>
+											</div>
+										</Tooltip>
+									</div>
 									<Input
 										id={field.name}
 										name={field.name}
@@ -100,7 +120,12 @@ export default function ConfigSection() {
 								state.isSubmitting,
 							]}
 							children={([canSubmit, isSubmitting]) => (
-								<Button type="submit" disabled={!canSubmit}>
+								<Button
+									type="submit"
+									disabled={!canSubmit}
+									variant="outline"
+								>
+									<HugeiconsIcon icon={SaveIcon} />
 									{isSubmitting ? "Saving..." : "Save"}
 								</Button>
 							)}

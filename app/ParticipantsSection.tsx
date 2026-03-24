@@ -17,6 +17,12 @@ import {
 	ItemTitle,
 } from "@/components/shadcn/item";
 import { useParticipantStore } from "@/stores/participants";
+import {
+	CircleArrowReload01Icon,
+	PlusSignCircleIcon,
+	RemoveCircleIcon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { useForm } from "@tanstack/react-form";
 import { Schema } from "effect";
 
@@ -61,7 +67,7 @@ export default function ParticipantsSection() {
 					<div>
 						<CardTitle>Participants</CardTitle>
 						<CardDescription>
-							See available participants and add new ones.
+							Add players and manage the list used in matches.
 						</CardDescription>
 					</div>
 				</div>
@@ -130,7 +136,12 @@ export default function ParticipantsSection() {
 												</Field>
 											)}
 										/>
-										<Button type="submit">Add</Button>
+										<Button type="submit">
+											<HugeiconsIcon
+												icon={PlusSignCircleIcon}
+											/>
+											Add
+										</Button>
 									</div>
 
 									{/* Participant list */}
@@ -139,7 +150,7 @@ export default function ParticipantsSection() {
 											(participant) => (
 												<Item
 													key={participant}
-													className="border-border"
+													className="border-border neo-surface-xs"
 												>
 													<ItemContent>
 														<ItemTitle>
@@ -148,12 +159,18 @@ export default function ParticipantsSection() {
 													</ItemContent>
 													<ItemActions>
 														<Button
+															variant="outline"
 															onClick={() => {
 																removeParticipant(
 																	participant,
 																);
 															}}
 														>
+															<HugeiconsIcon
+																icon={
+																	RemoveCircleIcon
+																}
+															/>
 															Remove
 														</Button>
 													</ItemActions>
@@ -177,6 +194,7 @@ export default function ParticipantsSection() {
 							}}
 							className="w-full"
 						>
+							<HugeiconsIcon icon={CircleArrowReload01Icon} />
 							Reset participants
 						</Button>
 					</div>
