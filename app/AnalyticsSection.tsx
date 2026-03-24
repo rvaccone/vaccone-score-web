@@ -67,7 +67,7 @@ export default function AnalyticsSection() {
 				{isSuccessAnalytics && analytics && (
 					<div className="space-y-4">
 						<div className="grid gap-2 sm:grid-cols-3">
-							<div className="rounded-md border p-3">
+							<div className="neo-stat">
 								<div className="text-muted-foreground">
 									Total Matches
 								</div>
@@ -76,7 +76,7 @@ export default function AnalyticsSection() {
 								</div>
 							</div>
 
-							<div className="rounded-md border p-3">
+							<div className="neo-stat">
 								<div className="text-muted-foreground">
 									Margin RMSE
 								</div>
@@ -85,7 +85,7 @@ export default function AnalyticsSection() {
 								</div>
 							</div>
 
-							<div className="rounded-md border p-3">
+							<div className="neo-stat">
 								<div className="text-muted-foreground">
 									Margin MAE
 								</div>
@@ -99,7 +99,7 @@ export default function AnalyticsSection() {
 							{analytics.ranking.map((entry, index) => (
 								<div
 									key={entry.participant}
-									className="flex items-center justify-between rounded-md border p-3"
+									className="neo-surface-md flex items-center justify-between gap-4 p-3"
 								>
 									<div>
 										<div className="flex items-start gap-2">

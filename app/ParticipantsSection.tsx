@@ -150,7 +150,7 @@ export default function ParticipantsSection() {
 											(participant) => (
 												<Item
 													key={participant}
-													className="border-border"
+													className="border-border neo-surface-xs"
 												>
 													<ItemContent>
 														<ItemTitle>

@@ -129,3 +129,41 @@
 	}
 }
 
+@layer components {
+	.neo-surface-xs {
+		@apply border-border bg-card text-card-foreground rounded-sm border-2;
+		box-shadow: 2px 2px 0 0 rgba(39, 47, 31, 0.82);
+	}
+
+	.dark .neo-surface-xs {
+		box-shadow: 2px 2px 0 0 rgba(6, 8, 5, 0.45);
+	}
+
+	.neo-surface-sm {
+		@apply border-border bg-card text-card-foreground rounded-sm border-2;
+		box-shadow: 3px 3px 0 0 rgba(39, 47, 31, 0.88);
+	}
+
+	.dark .neo-surface-sm {
+		box-shadow: 3px 3px 0 0 rgba(6, 8, 5, 0.55);
+	}
+
+	.neo-surface-md {
+		@apply border-border bg-card text-card-foreground rounded-sm border-2;
+		box-shadow: 4px 4px 0 0 rgba(39, 47, 31, 0.88);
+	}
+
+	.dark .neo-surface-md {
+		box-shadow: 4px 4px 0 0 rgba(6, 8, 5, 0.55);
+	}
+
+	.neo-stat {
+		@apply border-border rounded-sm border-2 p-3;
+		box-shadow: 3px 3px 0 0 rgba(39, 47, 31, 0.88);
+	}
+
+	.dark .neo-stat {
+		box-shadow: 3px 3px 0 0 rgba(6, 8, 5, 0.55);
+	}
+}
+

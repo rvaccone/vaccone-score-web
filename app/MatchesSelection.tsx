@@ -251,7 +251,6 @@ export default function MatchesSelection() {
 										<Button
 											type="submit"
 											disabled={!canSubmit}
-											className=""
 										>
 											<HugeiconsIcon icon={SaveIcon} />
 											Save match
@@ -269,7 +268,7 @@ export default function MatchesSelection() {
 						<AccordionContent>
 							{/* Fallback */}
 							{matches.length === 0 && (
-								<Item className="border-border">
+								<Item className="border-border neo-surface-xs">
 									<ItemContent>
 										<ItemTitle>No matches saved</ItemTitle>
 									</ItemContent>
@@ -282,7 +281,7 @@ export default function MatchesSelection() {
 									matches.map((match) => (
 										<Item
 											key={match.id}
-											className="border-border"
+											className="border-border neo-surface-xs"
 										>
 											<ItemContent>
 												<div className="flex items-center justify-between gap-4">
