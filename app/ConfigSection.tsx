@@ -102,7 +102,11 @@ export default function ConfigSection() {
 								state.isSubmitting,
 							]}
 							children={([canSubmit, isSubmitting]) => (
-								<Button type="submit" disabled={!canSubmit}>
+								<Button
+									type="submit"
+									disabled={!canSubmit}
+									variant="outline"
+								>
 									<HugeiconsIcon icon={SaveIcon} />
 									{isSubmitting ? "Saving..." : "Save"}
 								</Button>
