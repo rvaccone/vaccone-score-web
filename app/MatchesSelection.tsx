@@ -37,6 +37,13 @@ import { Schema } from "effect";
 import { v4 as uuidv4 } from "uuid";
 import TeamPicker from "./TeamPicker";
 
+const collator = new Intl.Collator("en", {
+	sensitivity: "base",
+});
+
+const sortNames = (names: string[]) =>
+	[...names].sort((a, b) => collator.compare(a, b));
+
 const AddMatchFormSchema = Schema.standardSchemaV1(
 	Schema.Struct({
 		teamA: Schema.mutable(Schema.Array(Schema.String)),
@@ -66,6 +73,8 @@ export default function MatchesSelection() {
 				...value,
 				id: uuidv4(),
 				createdAt: new Date().toISOString(),
+				teamA: sortNames(value.teamA),
+				teamB: sortNames(value.teamB),
 			});
 			form.reset();
 		},
@@ -113,7 +122,8 @@ export default function MatchesSelection() {
 									</h1>
 									<div className="grid gap-4 lg:grid-cols-2">
 										<TeamPicker
-											label={`Team A (${values.teamA.length} / ${participantsPerTeam})`}
+											label="Team A"
+											sublabel={`(${values.teamA.length} / ${participantsPerTeam})`}
 											selected={values.teamA}
 											blocked={values.teamB}
 											participants={participants}
@@ -131,7 +141,8 @@ export default function MatchesSelection() {
 										/>
 
 										<TeamPicker
-											label={`Team B (${values.teamB.length} / ${participantsPerTeam})`}
+											label="Team B"
+											sublabel={`(${values.teamB.length} / ${participantsPerTeam})`}
 											selected={values.teamB}
 											blocked={values.teamA}
 											participants={participants}

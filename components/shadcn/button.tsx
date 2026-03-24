@@ -15,7 +15,7 @@ const buttonVariants = cva(
 					"bg-card text-foreground hover:bg-secondary/80 aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
 				secondary:
 					"bg-secondary text-secondary-foreground hover:bg-secondary/90 aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
-				ghost: "border-transparent bg-background text-foreground shadow-none hover:border-border hover:bg-accent hover:text-accent-foreground hover:shadow-none active:translate-y-0 active:shadow-none aria-expanded:bg-accent aria-expanded:text-accent-foreground",
+				ghost: "border-transparent bg-transparent text-foreground shadow-none hover:border-border hover:bg-accent hover:text-accent-foreground hover:shadow-none active:translate-y-0 active:shadow-none aria-expanded:bg-accent aria-expanded:text-accent-foreground",
 				destructive:
 					"bg-destructive text-white hover:bg-destructive/95 focus-visible:border-destructive focus-visible:ring-destructive/30",
 				link: "border-0 bg-transparent p-0 text-primary shadow-none hover:bg-transparent hover:text-primary hover:underline hover:shadow-none active:translate-y-0 active:shadow-none underline-offset-4",

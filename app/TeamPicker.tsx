@@ -23,6 +23,7 @@ import { useMemo, useState } from "react";
 
 type TeamPickerProps = {
 	label: string;
+	sublabel?: string;
 	selected: string[];
 	blocked: string[];
 	participants: string[];
@@ -33,6 +34,7 @@ type TeamPickerProps = {
 
 export default function TeamPicker({
 	label,
+	sublabel,
 	selected,
 	blocked,
 	participants,
@@ -67,7 +69,12 @@ export default function TeamPicker({
 
 	return (
 		<Field data-invalid={invalid}>
-			<FieldLabel>{label}</FieldLabel>
+			<FieldLabel>
+				{label}
+				{sublabel && (
+					<span className="text-muted-foreground">{sublabel}</span>
+				)}
+			</FieldLabel>
 
 			<div className="space-y-2">
 				<Popover open={open} onOpenChange={setOpen}>
@@ -135,7 +142,7 @@ export default function TeamPicker({
 									type="button"
 									variant="ghost"
 									size="icon"
-									className="h-5 w-5"
+									className="text-text size-5"
 									onClick={() => {
 										onChangeAction(
 											selected.filter(
