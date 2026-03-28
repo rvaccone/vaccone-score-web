@@ -1,6 +1,7 @@
 "use client";
 
 import { Tooltip } from "@/components/help/tooltip";
+import { Button } from "@/components/shadcn/button";
 import {
 	Card,
 	CardContent,
@@ -15,14 +16,20 @@ import {
 	ChampionIcon,
 	NoteIcon,
 	SadDizzyIcon,
+	ViewIcon,
+	ViewOffSlashIcon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useQuery } from "@tanstack/react-query";
-import { BlockMath, InlineMath } from "react-katex";
+import { useState } from "react";
+import { InlineMath } from "react-katex";
 
 export default function AnalyticsSection() {
 	// Hooks
 	const { matches } = useMatchesStore();
+
+	// State
+	const [casualMode, setCasualMode] = useState(false);
 
 	// Queries
 	const {
@@ -46,74 +53,99 @@ export default function AnalyticsSection() {
 	return (
 		<Card>
 			<CardHeader>
-				<div className="flex items-center gap-2">
-					<CardTitle>Analytics</CardTitle>
-					<Tooltip title="How the model works">
-						<div className="space-y-3">
-							<p>
-								The model looks at each saved match and tries to
-								explain the final margin,{" "}
-								<InlineMath math="y = s_A - s_B" />.
-							</p>
+				<div className="flex items-center justify-between gap-2">
+					<div>
+						<div className="flex items-center gap-2">
+							<CardTitle>Analytics</CardTitle>
+							<Tooltip title="How the model works">
+								<div className="space-y-3">
+									<p>
+										The model looks at each saved match and
+										tries to explain the final margin,{" "}
+										<InlineMath math="y = s_A - s_B" />.
+									</p>
 
-							<p>
-								<InlineMath math="y" /> is the margin we want to
-								predict, <InlineMath math="s_A" /> is Team A’s
-								score, and <InlineMath math="s_B" /> is Team B’s
-								score.
-							</p>
+									<p>
+										<InlineMath math="y" /> is the margin we
+										want to predict,{" "}
+										<InlineMath math="s_A" /> is Team A’s
+										score, and <InlineMath math="s_B" /> is
+										Team B’s score.
+									</p>
 
-							<p>
-								Each match is turned into a row of player
-								weights, and the model uses those weights to
-								predict:{" "}
-								<InlineMath math="\hat{y} = x \cdot \beta" />.
-							</p>
+									<p>
+										Each match is turned into a row of
+										player weights, and the model uses those
+										weights to predict:{" "}
+										<InlineMath math="\hat{y} = x \cdot \beta" />
+										.
+									</p>
 
-							<p>
-								<InlineMath math="\hat{y}" /> is the predicted
-								margin, <InlineMath math="x" /> describes who
-								played in that match, and{" "}
-								<InlineMath math="\beta" /> is the set of player
-								ratings the model is learning.
-							</p>
+									<p>
+										<InlineMath math="\hat{y}" /> is the
+										predicted margin,{" "}
+										<InlineMath math="x" /> describes who
+										played in that match, and{" "}
+										<InlineMath math="\beta" /> is the set
+										of player ratings the model is learning.
+									</p>
 
-							<p>
-								If a player is on Team A, their weight is{" "}
-								<InlineMath math="1/|A|" />. If they are on Team
-								B, their weight is <InlineMath math="-1/|B|" />.
-								If they did not play, their weight is{" "}
-								<InlineMath math="0" />.
-							</p>
+									<p>
+										If a player is on Team A, their weight
+										is <InlineMath math="1/|A|" />. If they
+										are on Team B, their weight is{" "}
+										<InlineMath math="-1/|B|" />. If they
+										did not play, their weight is{" "}
+										<InlineMath math="0" />.
+									</p>
 
-							<p>
-								The model is comparing the average rating of
-								Team A to the average rating of Team B and using
-								that difference to predict the result.
-							</p>
+									<p>
+										The model is comparing the average
+										rating of Team A to the average rating
+										of Team B and using that difference to
+										predict the result.
+									</p>
 
-							<p>
-								Ridge regression then chooses the ratings{" "}
-								<InlineMath math="\beta" /> that fit the saved
-								matches as well as possible, while also
-								discouraging ratings from becoming too extreme.
-								That makes the results more stable, especially
-								when there are not many matches.
-							</p>
+									<p>
+										Ridge regression then chooses the
+										ratings <InlineMath math="\beta" /> that
+										fit the saved matches as well as
+										possible, while also discouraging
+										ratings from becoming too extreme. That
+										makes the results more stable,
+										especially when there are not many
+										matches.
+									</p>
 
-							<p>
-								After fitting, the ratings are centered around
-								0. So positive values mean above-average
-								estimated impact in this player pool, and
-								negative values mean below-average estimated
-								impact.
-							</p>
+									<p>
+										After fitting, the ratings are centered
+										around 0. So positive values mean
+										above-average estimated impact in this
+										player pool, and negative values mean
+										below-average estimated impact.
+									</p>
+								</div>
+							</Tooltip>
 						</div>
-					</Tooltip>
+						<CardDescription>
+							View player rankings and model accuracy.
+						</CardDescription>
+					</div>
+
+					<Button
+						variant="outline"
+						className="flex items-center gap-2"
+						onClick={() => {
+							setCasualMode((casualMode) => !casualMode);
+						}}
+					>
+						<HugeiconsIcon
+							icon={casualMode ? ViewIcon : ViewOffSlashIcon}
+							size={16}
+						/>
+						{!casualMode ? "Causal Mode" : "Competitive Mode"}
+					</Button>
 				</div>
-				<CardDescription>
-					View player rankings and model accuracy.
-				</CardDescription>
 			</CardHeader>
 			<CardContent>
 				{matches.length === 0 && (
@@ -193,7 +225,9 @@ export default function AnalyticsSection() {
 									</Tooltip>
 								</div>
 								<div className="text-lg font-semibold">
-									{analytics.rmse.toFixed(2)}
+									{!casualMode
+										? analytics.rmse.toFixed(2)
+										: "N/A"}
 								</div>
 							</div>
 
@@ -224,7 +258,9 @@ export default function AnalyticsSection() {
 									</Tooltip>
 								</div>
 								<div className="text-lg font-semibold">
-									{analytics.mae.toFixed(2)}
+									{!casualMode
+										? analytics.mae.toFixed(2)
+										: "N/A"}
 								</div>
 							</div>
 						</div>
@@ -296,45 +332,57 @@ export default function AnalyticsSection() {
 									<div>
 										<div className="flex items-start gap-2">
 											<p>
-												{index + 1}.{" "}
-												{entry.participant}{" "}
+												{!casualMode &&
+													`${index + 1}. `}
+												{!casualMode
+													? entry.participant
+													: "Participant"}{" "}
 											</p>
-											{index === 0 && (
+											{!casualMode && index === 0 && (
 												<HugeiconsIcon
 													icon={ChampionIcon}
 													size={16}
 												/>
 											)}
-											{index ===
-												analytics.ranking.length -
-													1 && (
-												<HugeiconsIcon
-													icon={SadDizzyIcon}
-													size={16}
-												/>
-											)}
+											{!casualMode &&
+												index ===
+													analytics.ranking.length -
+														1 && (
+													<HugeiconsIcon
+														icon={SadDizzyIcon}
+														size={16}
+													/>
+												)}
 										</div>
-										<div className="text-muted-foreground">
-											{entry.wins} Wins - {entry.losses}{" "}
-											Losses • {entry.matchesPlayed}{" "}
-											matches
-										</div>
+										{!casualMode ? (
+											<div className="text-muted-foreground">
+												{entry.wins} Wins -{" "}
+												{entry.losses} Losses •{" "}
+												{entry.matchesPlayed} matches
+											</div>
+										) : (
+											<div className="text-muted-foreground">
+												{entry.matchesPlayed} matches
+											</div>
+										)}
 									</div>
 
-									<div className="text-right">
-										<p className="font-semibold">
-											<span className="font-extrabold">
-												{entry.rating.toFixed(2)}
-											</span>{" "}
-											Rating
-										</p>
-										<p className="text-muted-foreground">
-											<span className="font-extrabold">
-												{entry.pointDifferential}
-											</span>{" "}
-											Net Points
-										</p>
-									</div>
+									{!casualMode && (
+										<div className="text-right">
+											<p className="font-semibold">
+												<span className="font-extrabold">
+													{entry.rating.toFixed(2)}
+												</span>{" "}
+												Rating
+											</p>
+											<p className="text-muted-foreground">
+												<span className="font-extrabold">
+													{entry.pointDifferential}
+												</span>{" "}
+												Net Points
+											</p>
+										</div>
+									)}
 								</div>
 							))}
 						</div>
